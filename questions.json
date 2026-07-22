@@ -1,50 +1,257 @@
 [
   {
-    "question": "In 2007, a Bosnian man survived a wife's assassination attempt because the bullet was stopped by his ______.",
-    "answer": "belt buckle"
-  },
-  {
+    "category": "Animal Kingdom",
     "question": "The town of Rabbit Hash, Kentucky has repeatedly elected a ______ as its mayor.",
     "answer": "dog"
   },
   {
-    "question": "In Switzerland it is illegal to own just one ______, because they get lonely.",
-    "answer": "guinea pig"
-  },
-  {
-    "question": "Astronauts on the ISS are not allowed to bring ______ because the crumbs float everywhere.",
-    "answer": "bread"
-  },
-  {
-    "question": "The inventor of the Pringles can had his ashes buried in a ______.",
-    "answer": "Pringles can"
-  },
-  {
+    "category": "Animal Kingdom",
     "question": "A group of flamingos is called a ______.",
     "answer": "flamboyance"
   },
   {
-    "question": "In 1518, the city of Strasbourg suffered a plague of uncontrollable ______.",
-    "answer": "dancing"
+    "category": "Animal Kingdom",
+    "question": "A group of crows is called a ______.",
+    "answer": "murder"
   },
   {
+    "category": "Animal Kingdom",
+    "question": "Wombats are the only animal in the world whose poop is shaped like a ______.",
+    "answer": "cube"
+  },
+  {
+    "category": "Animal Kingdom",
+    "question": "Octopuses have three hearts and ______ blood.",
+    "answer": "blue"
+  },
+  {
+    "category": "Animal Kingdom",
+    "question": "Sea otters sleep holding ______ so they don't drift apart.",
+    "answer": "hands"
+  },
+  {
+    "category": "Animal Kingdom",
+    "question": "The heart of a blue whale is about the size of a small ______.",
+    "answer": "car"
+  },
+  {
+    "category": "Weird Laws",
+    "question": "In Switzerland it is illegal to own just one ______, because they get lonely.",
+    "answer": "guinea pig"
+  },
+  {
+    "category": "Weird Laws",
+    "question": "Singapore has banned the sale of ______ since 1992.",
+    "answer": "chewing gum"
+  },
+  {
+    "category": "Weird Laws",
+    "question": "Until 2015, it was illegal in Japan to ______ in clubs after midnight.",
+    "answer": "dance"
+  },
+  {
+    "category": "Weird Laws",
+    "question": "On Germany's autobahn, it is illegal to run out of ______.",
+    "answer": "fuel"
+  },
+  {
+    "category": "Weird Laws",
+    "question": "In Thailand, it is illegal to step on ______.",
+    "answer": "money"
+  },
+  {
+    "category": "Weird Laws",
+    "question": "The Italian island of Capri has banned noisy ______.",
+    "answer": "flip-flops"
+  },
+  {
+    "category": "Food & Drink",
+    "question": "Astronauts on the ISS are not allowed to bring ______ because the crumbs float everywhere.",
+    "answer": "bread"
+  },
+  {
+    "category": "Food & Drink",
+    "question": "The inventor of the Pringles can had his ashes buried in a ______.",
+    "answer": "Pringles can"
+  },
+  {
+    "category": "Food & Drink",
     "question": "Bananas are naturally slightly ______, which is why they trigger airport radiation detectors.",
     "answer": "radioactive"
   },
   {
-    "question": "The unicorn is the official national animal of ______.",
-    "answer": "Scotland"
+    "category": "Food & Drink",
+    "question": "Honey found in ancient Egyptian tombs was still ______ after 3,000 years.",
+    "answer": "edible"
   },
   {
+    "category": "Food & Drink",
+    "question": "Before Dutch growers bred the orange kind, most carrots were ______.",
+    "answer": "purple"
+  },
+  {
+    "category": "Food & Drink",
+    "question": "The world's most expensive coffee is made from beans that have been digested by a ______.",
+    "answer": "civet"
+  },
+  {
+    "category": "Food & Drink",
+    "question": "In the 1830s, ketchup was sold as ______.",
+    "answer": "medicine"
+  },
+  {
+    "category": "Food & Drink",
+    "question": "Farmers in Japan grow square ______ so they're easier to stack and ship.",
+    "answer": "watermelons"
+  },
+  {
+    "category": "History's Strangest",
+    "question": "In 2007, a Bosnian man survived a wife's assassination attempt because the bullet was stopped by his ______.",
+    "answer": "belt buckle"
+  },
+  {
+    "category": "History's Strangest",
+    "question": "In 1518, the city of Strasbourg suffered a plague of uncontrollable ______.",
+    "answer": "dancing"
+  },
+  {
+    "category": "History's Strangest",
     "question": "In Victorian England, people mailed each other insulting anonymous cards on ______.",
     "answer": "Valentine's Day"
   },
   {
+    "category": "History's Strangest",
+    "question": "In 1932, Australia declared war on ______ — and lost.",
+    "answer": "emus"
+  },
+  {
+    "category": "History's Strangest",
+    "question": "Napoleon was once forced to retreat from a hunting party after being swarmed by hundreds of ______.",
+    "answer": "rabbits"
+  },
+  {
+    "category": "History's Strangest",
+    "question": "Ancient Romans used ______ as mouthwash.",
+    "answer": "urine"
+  },
+  {
+    "category": "History's Strangest",
+    "question": "In 1919, twenty-one people in Boston were killed by a giant flood of ______.",
+    "answer": "molasses"
+  },
+  {
+    "category": "Science & Space",
+    "question": "A day on Venus is longer than its ______.",
+    "answer": "year"
+  },
+  {
+    "category": "Science & Space",
+    "question": "Astronauts can grow up to two inches taller in space because their ______ expands.",
+    "answer": "spine"
+  },
+  {
+    "category": "Science & Space",
+    "question": "Scientists believe it rains ______ on Saturn and Jupiter.",
+    "answer": "diamonds"
+  },
+  {
+    "category": "Science & Space",
+    "question": "Hot water can freeze faster than cold water — a phenomenon called the ______ effect.",
+    "answer": "Mpemba"
+  },
+  {
+    "category": "Science & Space",
+    "question": "The footprints on the Moon will last millions of years because the Moon has no ______.",
+    "answer": "wind"
+  },
+  {
+    "category": "Geography & Places",
+    "question": "The unicorn is the official national animal of ______.",
+    "answer": "Scotland"
+  },
+  {
+    "category": "Geography & Places",
+    "question": "Oklahoma's official state vegetable is technically a fruit: the ______.",
+    "answer": "watermelon"
+  },
+  {
+    "category": "Geography & Places",
+    "question": "There is a town in Norway called ______, and it regularly freezes over.",
+    "answer": "Hell"
+  },
+  {
+    "category": "Geography & Places",
+    "question": "Australia is wider than the ______.",
+    "answer": "Moon"
+  },
+  {
+    "category": "Geography & Places",
+    "question": "The country with the most pyramids in the world is ______.",
+    "answer": "Sudan"
+  },
+  {
+    "category": "Geography & Places",
+    "question": "Canada has more ______ than the rest of the world combined.",
+    "answer": "lakes"
+  },
+  {
+    "category": "Geography & Places",
+    "question": "The town of Boring, Oregon is officially paired with the Scottish village of ______.",
+    "answer": "Dull"
+  },
+  {
+    "category": "Records & Firsts",
     "question": "The world record for the loudest burp is louder than a ______.",
     "answer": "jackhammer"
   },
   {
-    "question": "Oklahoma's official state vegetable is technically a fruit: the ______.",
-    "answer": "watermelon"
+    "category": "Records & Firsts",
+    "question": "The shortest war in history, between Britain and Zanzibar, lasted about ______ minutes.",
+    "answer": "38"
+  },
+  {
+    "category": "Records & Firsts",
+    "question": "The longest recorded case of hiccups lasted ______ years.",
+    "answer": "68"
+  },
+  {
+    "category": "Records & Firsts",
+    "question": "The first item ever sold on eBay was a broken ______.",
+    "answer": "laser pointer"
+  },
+  {
+    "category": "Records & Firsts",
+    "question": "The longest place name in the world, a hill in New Zealand, is spelled with 85 ______.",
+    "answer": "letters"
+  },
+  {
+    "category": "Records & Firsts",
+    "question": "The fastest goal in World Cup history was scored just ______ seconds after kickoff.",
+    "answer": "11"
+  },
+  {
+    "category": "Pop Culture",
+    "question": "The longtime voice actors of Mickey Mouse and Minnie Mouse were ______ in real life.",
+    "answer": "married"
+  },
+  {
+    "category": "Pop Culture",
+    "question": "In the 1990s, Michael Jackson tried to buy Marvel Comics so he could play ______.",
+    "answer": "Spider-Man"
+  },
+  {
+    "category": "Pop Culture",
+    "question": "Daniel Radcliffe went through around 80 ______ filming the Harry Potter movies, partly by using them as drumsticks.",
+    "answer": "wands"
+  },
+  {
+    "category": "Pop Culture",
+    "question": "The blood in Psycho's famous shower scene was actually ______.",
+    "answer": "chocolate syrup"
+  },
+  {
+    "category": "Pop Culture",
+    "question": "James Earl Jones voiced both Darth Vader and ______.",
+    "answer": "Mufasa"
   }
 ]

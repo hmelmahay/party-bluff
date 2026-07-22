@@ -39,7 +39,7 @@ This repo is for learning GitHub collaboration. Suggested workflow:
 7. Reviewer comments / approves → **merge** → delete the branch
 
 Good first contributions:
-- Add more questions to `questions.json` (format: `{"question": "... ______.", "answer": "..."}`)
+- Add more questions to `questions.json` (format: `{"category": "Animal Kingdom", "question": "... ______.", "answer": "..."}` — see the file for the list of categories)
 - Add a round timer so slow players can't stall the game
 - Sound effects / animations on the reveal screen
 - A dedicated "TV screen" view for casting to a big screen
