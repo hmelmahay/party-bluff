@@ -3,8 +3,9 @@
 A house-party bluffing trivia game. Everyone joins from their phone with a 4-letter room code. Each round shows a weird-but-true trivia question with a blank — every player writes a convincing **lie** to fill it, then everyone votes on which answer is the truth.
 
 **Scoring**
-- Pick the real answer: **+1000 points**
+- Pick the real answer when voting: **+1000 points**
 - Every friend fooled by your lie: **+500 points**
+- Accidentally type the real answer while writing your lie: **+500 bonus** (then you still have to write a lie!)
 
 ## Play locally
 

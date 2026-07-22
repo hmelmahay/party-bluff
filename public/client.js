@@ -21,10 +21,12 @@ socket.on("state", (s) => {
   render();
 });
 
+let toastTimer = null;
 function showToast(msg) {
   toast.textContent = msg;
   toast.style.display = "block";
-  setTimeout(() => (toast.style.display = "none"), 2500);
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => (toast.style.display = "none"), Math.max(2500, msg.length * 60));
 }
 
 function esc(str) {
@@ -164,6 +166,9 @@ function renderReveal() {
       <div class="qtext">${esc(state.question)}</div>
       <div class="label">The truth was</div>
       <div class="truth" style="font-size:1.3rem; margin-bottom:12px;">${esc(r.answer)}</div>
+      ${r.truthGuessers && r.truthGuessers.length
+        ? `<div class="waiting" style="text-align:left; padding:0 0 10px;">🎯 ${esc(r.truthGuessers.join(", "))} guessed the real answer while bluffing (+500)</div>`
+        : ""}
       <ul class="players">
         ${r.results.map((res) => `<li><span>${esc(res.voter)}</span><span>${res.pickedTruth ? '<span class="truth">found the truth! +1000</span>' : `<span class="fooled">fooled by ${esc(res.fooledBy)}</span>`}</span></li>`).join("")}
       </ul>
