@@ -7,6 +7,8 @@ A house-party bluffing trivia game. Everyone joins from their phone with a 4-let
 - Every friend fooled by your lie: **+500 points**
 - Accidentally type the real answer while writing your lie: **+500 bonus** (then you still have to write a lie!)
 
+With fewer than 4 players there aren't enough lies to hide the truth in, so **BluffBot 🤖** pads the ballot to 5 choices with plausible fakes (answers borrowed from other questions in the same category). Falling for a BluffBot lie scores nobody any points — just shame.
+
 ## Play locally
 
 ```bash

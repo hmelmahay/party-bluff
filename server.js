@@ -15,6 +15,9 @@ const QUESTIONS_PER_GAME = 5;
 const POINTS_FOR_TRUTH = 1000;
 const POINTS_PER_FOOL = 500;
 const POINTS_FOR_GUESS = 500;
+const MIN_CHOICES = 5;
+const BOT_ID = "__bot__";
+const BOT_NAME = "BluffBot 🤖";
 
 // Compare loosely so "The Belt Buckle." still counts as guessing "belt buckle"
 function normalizeAnswer(str) {
@@ -103,7 +106,23 @@ function maybeStartVoting(code) {
   const lies = Object.entries(room.players)
     .filter(([, p]) => p.lie !== null)
     .map(([id, p]) => ({ text: p.lie, isTruth: false, ownerId: id }));
-  const combined = shuffle([truth, ...lies]);
+
+  // With few players there aren't enough lies to hide the truth in, so
+  // BluffBot pads the ballot to MIN_CHOICES using answers borrowed from
+  // other questions (same category first, so they sound plausible).
+  const used = new Set([truth, ...lies].map((c) => normalizeAnswer(c.text)));
+  const sameCategory = QUESTIONS.filter((x) => x.category === q.category).map((x) => x.answer);
+  const anyCategory = QUESTIONS.map((x) => x.answer);
+  const botLies = [];
+  for (const cand of [...shuffle(sameCategory), ...shuffle(anyCategory)]) {
+    if (1 + lies.length + botLies.length >= MIN_CHOICES) break;
+    const n = normalizeAnswer(cand);
+    if (used.has(n)) continue;
+    used.add(n);
+    botLies.push({ text: cand, isTruth: false, ownerId: BOT_ID });
+  }
+
+  const combined = shuffle([truth, ...lies, ...botLies]);
   room.choiceMeta = combined;
   room.choices = combined.map((c, i) => ({ index: i, text: c.text }));
   room.phase = "vote";
@@ -123,6 +142,8 @@ function maybeReveal(code) {
     if (choice.isTruth) {
       p.score += POINTS_FOR_TRUTH;
       results.push({ voter: p.name, pickedTruth: true, fooledBy: null });
+    } else if (choice.ownerId === BOT_ID) {
+      results.push({ voter: p.name, pickedTruth: false, fooledBy: BOT_NAME });
     } else {
       const owner = room.players[choice.ownerId];
       if (owner && choice.ownerId !== id) owner.score += POINTS_PER_FOOL;
