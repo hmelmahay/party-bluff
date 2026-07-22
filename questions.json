@@ -1,50 +1,1002 @@
 [
   {
-    "question": "In 2007, a Bosnian man survived a wife's assassination attempt because the bullet was stopped by his ______.",
-    "answer": "belt buckle"
-  },
-  {
+    "category": "Animal Kingdom",
     "question": "The town of Rabbit Hash, Kentucky has repeatedly elected a ______ as its mayor.",
     "answer": "dog"
   },
   {
-    "question": "In Switzerland it is illegal to own just one ______, because they get lonely.",
-    "answer": "guinea pig"
-  },
-  {
-    "question": "Astronauts on the ISS are not allowed to bring ______ because the crumbs float everywhere.",
-    "answer": "bread"
-  },
-  {
-    "question": "The inventor of the Pringles can had his ashes buried in a ______.",
-    "answer": "Pringles can"
-  },
-  {
+    "category": "Animal Kingdom",
     "question": "A group of flamingos is called a ______.",
     "answer": "flamboyance"
   },
   {
-    "question": "In 1518, the city of Strasbourg suffered a plague of uncontrollable ______.",
-    "answer": "dancing"
+    "category": "Animal Kingdom",
+    "question": "A group of crows is called a ______.",
+    "answer": "murder"
   },
   {
+    "category": "Animal Kingdom",
+    "question": "Wombats are the only animal in the world whose poop is shaped like a ______.",
+    "answer": "cube"
+  },
+  {
+    "category": "Animal Kingdom",
+    "question": "Octopuses have three hearts and ______ blood.",
+    "answer": "blue"
+  },
+  {
+    "category": "Animal Kingdom",
+    "question": "Sea otters sleep holding ______ so they don't drift apart.",
+    "answer": "hands"
+  },
+  {
+    "category": "Animal Kingdom",
+    "question": "The heart of a blue whale is about the size of a small ______.",
+    "answer": "car"
+  },
+  {
+    "category": "Animal Kingdom",
+    "question": "A group of owls is called a ______.",
+    "answer": "parliament"
+  },
+  {
+    "category": "Animal Kingdom",
+    "question": "A group of porcupines is called a ______.",
+    "answer": "prickle"
+  },
+  {
+    "category": "Animal Kingdom",
+    "question": "A group of jellyfish is called a ______.",
+    "answer": "smack"
+  },
+  {
+    "category": "Animal Kingdom",
+    "question": "A shrimp's heart is located in its ______.",
+    "answer": "head"
+  },
+  {
+    "category": "Animal Kingdom",
+    "question": "Cows have best ______ and get stressed when separated from them.",
+    "answer": "friends"
+  },
+  {
+    "category": "Animal Kingdom",
+    "question": "Flamingos aren't born pink — they turn pink from the ______ they eat.",
+    "answer": "shrimp"
+  },
+  {
+    "category": "Animal Kingdom",
+    "question": "A snail can sleep for up to three ______.",
+    "answer": "years"
+  },
+  {
+    "category": "Animal Kingdom",
+    "question": "Elephants are the only land mammals that can't ______.",
+    "answer": "jump"
+  },
+  {
+    "category": "Animal Kingdom",
+    "question": "Slugs have four ______.",
+    "answer": "noses"
+  },
+  {
+    "category": "Animal Kingdom",
+    "question": "A cockroach can live for weeks without its ______.",
+    "answer": "head"
+  },
+  {
+    "category": "Animal Kingdom",
+    "question": "Sloths can hold their breath underwater longer than ______.",
+    "answer": "dolphins"
+  },
+  {
+    "category": "Animal Kingdom",
+    "question": "Honeybees can be trained to recognize human ______.",
+    "answer": "faces"
+  },
+  {
+    "category": "Animal Kingdom",
+    "question": "The mantis shrimp throws a punch with roughly the acceleration of a ______.",
+    "answer": "bullet"
+  },
+  {
+    "category": "Animal Kingdom",
+    "question": "In seahorses, it's the ______ that get pregnant and give birth.",
+    "answer": "males"
+  },
+  {
+    "category": "Animal Kingdom",
+    "question": "A grizzly bear's bite is strong enough to crush a ______.",
+    "answer": "bowling ball"
+  },
+  {
+    "category": "Animal Kingdom",
+    "question": "Dolphins call each other by name using signature ______.",
+    "answer": "whistles"
+  },
+  {
+    "category": "Animal Kingdom",
+    "question": "Butterflies taste with their ______.",
+    "answer": "feet"
+  },
+  {
+    "category": "Animal Kingdom",
+    "question": "Goats have ______ pupils.",
+    "answer": "rectangular"
+  },
+  {
+    "category": "Weird Laws",
+    "question": "In Switzerland it is illegal to own just one ______, because they get lonely.",
+    "answer": "guinea pig"
+  },
+  {
+    "category": "Weird Laws",
+    "question": "Singapore has banned the sale of ______ since 1992.",
+    "answer": "chewing gum"
+  },
+  {
+    "category": "Weird Laws",
+    "question": "Until 2015, it was illegal in Japan to ______ in clubs after midnight.",
+    "answer": "dance"
+  },
+  {
+    "category": "Weird Laws",
+    "question": "On Germany's autobahn, it is illegal to run out of ______.",
+    "answer": "fuel"
+  },
+  {
+    "category": "Weird Laws",
+    "question": "In Thailand, it is illegal to step on ______.",
+    "answer": "money"
+  },
+  {
+    "category": "Weird Laws",
+    "question": "The Italian island of Capri has banned noisy ______.",
+    "answer": "flip-flops"
+  },
+  {
+    "category": "Weird Laws",
+    "question": "In Venice, Italy, it is illegal to feed the ______.",
+    "answer": "pigeons"
+  },
+  {
+    "category": "Weird Laws",
+    "question": "French supermarkets are banned by law from throwing away unsold ______.",
+    "answer": "food"
+  },
+  {
+    "category": "Weird Laws",
+    "question": "In Denmark, parents must pick their baby's ______ from a government-approved list.",
+    "answer": "name"
+  },
+  {
+    "category": "Weird Laws",
+    "question": "A Japanese law once required companies to measure their employees' ______ every year.",
+    "answer": "waistlines"
+  },
+  {
+    "category": "Weird Laws",
+    "question": "A real UK law makes it illegal to handle salmon in ______ circumstances.",
+    "answer": "suspicious"
+  },
+  {
+    "category": "Weird Laws",
+    "question": "In Arizona, it is illegal to let a donkey sleep in a ______.",
+    "answer": "bathtub"
+  },
+  {
+    "category": "Weird Laws",
+    "question": "In Alaska, it is illegal to wake a sleeping ______ to take a photo with it.",
+    "answer": "bear"
+  },
+  {
+    "category": "Weird Laws",
+    "question": "Since 2019, it has been illegal to sit down on Rome's famous ______.",
+    "answer": "Spanish Steps"
+  },
+  {
+    "category": "Weird Laws",
+    "question": "In Quitman, Georgia, it is illegal for a chicken to cross the ______.",
+    "answer": "road"
+  },
+  {
+    "category": "Weird Laws",
+    "question": "In Samoa, it is illegal to forget your wife's ______.",
+    "answer": "birthday"
+  },
+  {
+    "category": "Weird Laws",
+    "question": "In Turin, Italy, dog owners are required by law to walk their dogs three times a ______.",
+    "answer": "day"
+  },
+  {
+    "category": "Weird Laws",
+    "question": "An 1872 law makes it illegal in England to be drunk in a ______.",
+    "answer": "pub"
+  },
+  {
+    "category": "Weird Laws",
+    "question": "In Portugal, it is illegal to pee in the ______.",
+    "answer": "ocean"
+  },
+  {
+    "category": "Weird Laws",
+    "question": "An old regulation in Milan, Italy requires citizens to ______ at all times, except at funerals and hospitals.",
+    "answer": "smile"
+  },
+  {
+    "category": "Weird Laws",
+    "question": "Canadian radio stations are legally required to play a minimum percentage of ______ music.",
+    "answer": "Canadian"
+  },
+  {
+    "category": "Weird Laws",
+    "question": "In Florida, if you tie an elephant to a parking meter, you must pay the ______.",
+    "answer": "parking fee"
+  },
+  {
+    "category": "Weird Laws",
+    "question": "Paris only repealed a law banning women from wearing ______ in 2013.",
+    "answer": "trousers"
+  },
+  {
+    "category": "Weird Laws",
+    "question": "An 1839 London law makes it illegal to carry a ______ along the pavement.",
+    "answer": "plank of wood"
+  },
+  {
+    "category": "Weird Laws",
+    "question": "For decades in Victoria, Australia, it was technically illegal to change a ______ without an electrician's license.",
+    "answer": "light bulb"
+  },
+  {
+    "category": "Food & Drink",
+    "question": "Astronauts on the ISS are not allowed to bring ______ because the crumbs float everywhere.",
+    "answer": "bread"
+  },
+  {
+    "category": "Food & Drink",
+    "question": "The inventor of the Pringles can had his ashes buried in a ______.",
+    "answer": "Pringles can"
+  },
+  {
+    "category": "Food & Drink",
     "question": "Bananas are naturally slightly ______, which is why they trigger airport radiation detectors.",
     "answer": "radioactive"
   },
   {
-    "question": "The unicorn is the official national animal of ______.",
-    "answer": "Scotland"
+    "category": "Food & Drink",
+    "question": "Honey found in ancient Egyptian tombs was still ______ after 3,000 years.",
+    "answer": "edible"
   },
   {
+    "category": "Food & Drink",
+    "question": "Before Dutch growers bred the orange kind, most carrots were ______.",
+    "answer": "purple"
+  },
+  {
+    "category": "Food & Drink",
+    "question": "The world's most expensive coffee is made from beans that have been digested by a ______.",
+    "answer": "civet"
+  },
+  {
+    "category": "Food & Drink",
+    "question": "In the 1830s, ketchup was sold as ______.",
+    "answer": "medicine"
+  },
+  {
+    "category": "Food & Drink",
+    "question": "Farmers in Japan grow square ______ so they're easier to stack and ship.",
+    "answer": "watermelons"
+  },
+  {
+    "category": "Food & Drink",
+    "question": "Peanuts aren't actually nuts — they're ______.",
+    "answer": "legumes"
+  },
+  {
+    "category": "Food & Drink",
+    "question": "White chocolate contains no ______ solids.",
+    "answer": "cocoa"
+  },
+  {
+    "category": "Food & Drink",
+    "question": "The red food dye carmine is made from crushed ______.",
+    "answer": "bugs"
+  },
+  {
+    "category": "Food & Drink",
+    "question": "The fortune cookie was most likely invented in ______, not China.",
+    "answer": "Japan"
+  },
+  {
+    "category": "Food & Drink",
+    "question": "Apples float in water because they are about 25% ______.",
+    "answer": "air"
+  },
+  {
+    "category": "Food & Drink",
+    "question": "The most stolen food in the world is ______.",
+    "answer": "cheese"
+  },
+  {
+    "category": "Food & Drink",
+    "question": "In large enough doses, nutmeg acts as a ______.",
+    "answer": "hallucinogen"
+  },
+  {
+    "category": "Food & Drink",
+    "question": "Botanically, strawberries aren't berries — but ______ are.",
+    "answer": "bananas"
+  },
+  {
+    "category": "Food & Drink",
+    "question": "The Caesar salad was invented in ______.",
+    "answer": "Mexico"
+  },
+  {
+    "category": "Food & Drink",
+    "question": "The Aztecs used ______ as money.",
+    "answer": "cocoa beans"
+  },
+  {
+    "category": "Food & Drink",
+    "question": "Hawaiian pizza was invented in ______.",
+    "answer": "Canada"
+  },
+  {
+    "category": "Food & Drink",
+    "question": "About a quarter of the world's hazelnuts end up in ______.",
+    "answer": "Nutella"
+  },
+  {
+    "category": "Food & Drink",
+    "question": "The expiration date on bottled water is for the ______, not the water.",
+    "answer": "bottle"
+  },
+  {
+    "category": "Food & Drink",
+    "question": "Farmers test whether cranberries are ripe by seeing if they ______.",
+    "answer": "bounce"
+  },
+  {
+    "category": "Food & Drink",
+    "question": "In colonial America, lobster was so cheap it was mostly fed to ______.",
+    "answer": "prisoners"
+  },
+  {
+    "category": "Food & Drink",
+    "question": "McDonald's once test-marketed bubblegum-flavored ______.",
+    "answer": "broccoli"
+  },
+  {
+    "category": "Food & Drink",
+    "question": "Pistachios shipped in bulk can spontaneously ______.",
+    "answer": "combust"
+  },
+  {
+    "category": "History's Strangest",
+    "question": "In 2007, a Bosnian man survived a wife's assassination attempt because the bullet was stopped by his ______.",
+    "answer": "belt buckle"
+  },
+  {
+    "category": "History's Strangest",
+    "question": "In 1518, the city of Strasbourg suffered a plague of uncontrollable ______.",
+    "answer": "dancing"
+  },
+  {
+    "category": "History's Strangest",
     "question": "In Victorian England, people mailed each other insulting anonymous cards on ______.",
     "answer": "Valentine's Day"
   },
   {
+    "category": "History's Strangest",
+    "question": "In 1932, Australia declared war on ______ — and lost.",
+    "answer": "emus"
+  },
+  {
+    "category": "History's Strangest",
+    "question": "Napoleon was once forced to retreat from a hunting party after being swarmed by hundreds of ______.",
+    "answer": "rabbits"
+  },
+  {
+    "category": "History's Strangest",
+    "question": "Ancient Romans used ______ as mouthwash.",
+    "answer": "urine"
+  },
+  {
+    "category": "History's Strangest",
+    "question": "In 1919, twenty-one people in Boston were killed by a giant flood of ______.",
+    "answer": "molasses"
+  },
+  {
+    "category": "History's Strangest",
+    "question": "Cleopatra lived closer in time to the Moon landing than to the construction of the ______.",
+    "answer": "Great Pyramid"
+  },
+  {
+    "category": "History's Strangest",
+    "question": "Oxford University is older than the ______ Empire.",
+    "answer": "Aztec"
+  },
+  {
+    "category": "History's Strangest",
+    "question": "The Eiffel Tower was originally supposed to be ______ after 20 years.",
+    "answer": "torn down"
+  },
+  {
+    "category": "History's Strangest",
+    "question": "Before alarm clocks, 'knocker-uppers' woke workers by tapping on their windows with long ______.",
+    "answer": "sticks"
+  },
+  {
+    "category": "History's Strangest",
+    "question": "Ancient Egyptians slept on pillows made of ______.",
+    "answer": "stone"
+  },
+  {
+    "category": "History's Strangest",
+    "question": "Andrew Jackson's pet parrot was removed from his funeral for ______.",
+    "answer": "swearing"
+  },
+  {
+    "category": "History's Strangest",
+    "question": "From 1912 to 1948, the Olympics awarded medals for ______.",
+    "answer": "art"
+  },
+  {
+    "category": "History's Strangest",
+    "question": "During the 1630s Dutch mania, a single ______ bulb could cost more than a house.",
+    "answer": "tulip"
+  },
+  {
+    "category": "History's Strangest",
+    "question": "The Leaning Tower of Pisa was never ______.",
+    "answer": "straight"
+  },
+  {
+    "category": "History's Strangest",
+    "question": "Wealthy Romans bought gladiator ______ as a beauty product.",
+    "answer": "sweat"
+  },
+  {
+    "category": "History's Strangest",
+    "question": "In 1859, a San Francisco man declared himself ______ of the United States — and the city played along for decades.",
+    "answer": "Emperor"
+  },
+  {
+    "category": "History's Strangest",
+    "question": "The Great Fire of London destroyed 13,000 buildings but officially killed only ______ people.",
+    "answer": "6"
+  },
+  {
+    "category": "History's Strangest",
+    "question": "In WWII, Britain seriously planned an aircraft carrier made of ice and ______.",
+    "answer": "sawdust"
+  },
+  {
+    "category": "History's Strangest",
+    "question": "During WWII, the US military tested bombs containing live ______.",
+    "answer": "bats"
+  },
+  {
+    "category": "History's Strangest",
+    "question": "In ancient Greece, throwing an ______ at someone was a declaration of love.",
+    "answer": "apple"
+  },
+  {
+    "category": "History's Strangest",
+    "question": "In 897, a dead pope was dug up, dressed in robes, and put on ______.",
+    "answer": "trial"
+  },
+  {
+    "category": "History's Strangest",
+    "question": "Albert Einstein was offered the presidency of ______ and turned it down.",
+    "answer": "Israel"
+  },
+  {
+    "category": "History's Strangest",
+    "question": "Ancient Romans sometimes flooded the Colosseum to stage mock ______ battles.",
+    "answer": "naval"
+  },
+  {
+    "category": "Science & Space",
+    "question": "A day on Venus is longer than its ______.",
+    "answer": "year"
+  },
+  {
+    "category": "Science & Space",
+    "question": "Astronauts can grow up to two inches taller in space because their ______ expands.",
+    "answer": "spine"
+  },
+  {
+    "category": "Science & Space",
+    "question": "Scientists believe it rains ______ on Saturn and Jupiter.",
+    "answer": "diamonds"
+  },
+  {
+    "category": "Science & Space",
+    "question": "Hot water can freeze faster than cold water — a phenomenon called the ______ effect.",
+    "answer": "Mpemba"
+  },
+  {
+    "category": "Science & Space",
+    "question": "The footprints on the Moon will last millions of years because the Moon has no ______.",
+    "answer": "wind"
+  },
+  {
+    "category": "Science & Space",
+    "question": "Humans share roughly 60% of their DNA with ______.",
+    "answer": "bananas"
+  },
+  {
+    "category": "Science & Space",
+    "question": "There are more trees on Earth than ______ in the Milky Way.",
+    "answer": "stars"
+  },
+  {
+    "category": "Science & Space",
+    "question": "At its 'triple point,' water can boil and ______ at the same time.",
+    "answer": "freeze"
+  },
+  {
+    "category": "Science & Space",
+    "question": "A bolt of lightning is about five times hotter than the surface of the ______.",
+    "answer": "Sun"
+  },
+  {
+    "category": "Science & Space",
+    "question": "On Mercury, a single day lasts about two of its ______.",
+    "answer": "years"
+  },
+  {
+    "category": "Science & Space",
+    "question": "The Sun makes up 99.8% of all the ______ in the solar system.",
+    "answer": "mass"
+  },
+  {
+    "category": "Science & Space",
+    "question": "Your stomach grows a new lining every few days so it doesn't ______ itself.",
+    "answer": "digest"
+  },
+  {
+    "category": "Science & Space",
+    "question": "The human body faintly ______, but about 1,000 times too weakly for our eyes to see.",
+    "answer": "glows"
+  },
+  {
+    "category": "Science & Space",
+    "question": "Most of Earth's oxygen is produced by the ______.",
+    "answer": "ocean"
+  },
+  {
+    "category": "Science & Space",
+    "question": "Sound travels about four times faster in ______ than in air.",
+    "answer": "water"
+  },
+  {
+    "category": "Science & Space",
+    "question": "Venus is the only planet in our solar system that spins ______.",
+    "answer": "backwards"
+  },
+  {
+    "category": "Science & Space",
+    "question": "If you could fold a piece of paper in half 42 times, it would reach the ______.",
+    "answer": "Moon"
+  },
+  {
+    "category": "Science & Space",
+    "question": "Astronauts say space smells like seared ______.",
+    "answer": "steak"
+  },
+  {
+    "category": "Science & Space",
+    "question": "A sugar-cube-sized piece of a neutron star would weigh about a ______ tons.",
+    "answer": "billion"
+  },
+  {
+    "category": "Science & Space",
+    "question": "The Eiffel Tower grows about six inches taller every ______.",
+    "answer": "summer"
+  },
+  {
+    "category": "Science & Space",
+    "question": "Helium makes your voice higher; sulfur hexafluoride makes it ______.",
+    "answer": "deeper"
+  },
+  {
+    "category": "Science & Space",
+    "question": "Fingernails don't keep growing after death — the skin around them ______.",
+    "answer": "shrinks"
+  },
+  {
+    "category": "Science & Space",
+    "question": "Astronomers have found a giant cloud in space containing billions of liters of ______.",
+    "answer": "alcohol"
+  },
+  {
+    "category": "Science & Space",
+    "question": "Saturn is so light for its size that it would float in ______.",
+    "answer": "water"
+  },
+  {
+    "category": "Science & Space",
+    "question": "Your body contains enough carbon to make about 9,000 ______.",
+    "answer": "pencils"
+  },
+  {
+    "category": "Geography & Places",
+    "question": "The unicorn is the official national animal of ______.",
+    "answer": "Scotland"
+  },
+  {
+    "category": "Geography & Places",
+    "question": "Oklahoma's official state vegetable is technically a fruit: the ______.",
+    "answer": "watermelon"
+  },
+  {
+    "category": "Geography & Places",
+    "question": "There is a town in Norway called ______, and it regularly freezes over.",
+    "answer": "Hell"
+  },
+  {
+    "category": "Geography & Places",
+    "question": "Australia is wider than the ______.",
+    "answer": "Moon"
+  },
+  {
+    "category": "Geography & Places",
+    "question": "The country with the most pyramids in the world is ______.",
+    "answer": "Sudan"
+  },
+  {
+    "category": "Geography & Places",
+    "question": "Canada has more ______ than the rest of the world combined.",
+    "answer": "lakes"
+  },
+  {
+    "category": "Geography & Places",
+    "question": "The town of Boring, Oregon is officially paired with the Scottish village of ______.",
+    "answer": "Dull"
+  },
+  {
+    "category": "Geography & Places",
+    "question": "Because Earth bulges at the equator, the point farthest from Earth's center is a mountain in ______.",
+    "answer": "Ecuador"
+  },
+  {
+    "category": "Geography & Places",
+    "question": "At their closest, Russia and the United States are less than ______ miles apart.",
+    "answer": "3"
+  },
+  {
+    "category": "Geography & Places",
+    "question": "Africa is the only continent that sits in all four ______.",
+    "answer": "hemispheres"
+  },
+  {
+    "category": "Geography & Places",
+    "question": "Istanbul is the only major city located on two ______.",
+    "answer": "continents"
+  },
+  {
+    "category": "Geography & Places",
+    "question": "The largest desert on Earth is actually ______.",
+    "answer": "Antarctica"
+  },
+  {
+    "category": "Geography & Places",
+    "question": "Alaska is simultaneously the most northern, most western, AND most ______ US state.",
+    "answer": "eastern"
+  },
+  {
+    "category": "Geography & Places",
+    "question": "The world's smallest country could fit inside Central Park — it's ______.",
+    "answer": "Vatican City"
+  },
+  {
+    "category": "Geography & Places",
+    "question": "Reno, Nevada is farther ______ than Los Angeles.",
+    "answer": "west"
+  },
+  {
+    "category": "Geography & Places",
+    "question": "The closest US state to Africa is ______.",
+    "answer": "Maine"
+  },
+  {
+    "category": "Geography & Places",
+    "question": "The Atlantic Ocean gets about an inch wider every ______.",
+    "answer": "year"
+  },
+  {
+    "category": "Geography & Places",
+    "question": "______ has more saunas than cars.",
+    "answer": "Finland"
+  },
+  {
+    "category": "Geography & Places",
+    "question": "The world's highest capital city is in ______.",
+    "answer": "Bolivia"
+  },
+  {
+    "category": "Geography & Places",
+    "question": "The only US state capital without a McDonald's is ______.",
+    "answer": "Montpelier"
+  },
+  {
+    "category": "Geography & Places",
+    "question": "The most remote spot in the ocean is so isolated that the nearest humans are often aboard the ______.",
+    "answer": "space station"
+  },
+  {
+    "category": "Geography & Places",
+    "question": "The Dead Sea is so salty that swimmers can't ______.",
+    "answer": "sink"
+  },
+  {
+    "category": "Geography & Places",
+    "question": "The world's shortest commercial flight, in Scotland, lasts under two ______.",
+    "answer": "minutes"
+  },
+  {
+    "category": "Geography & Places",
+    "question": "The Amazon River is not crossed by a single ______.",
+    "answer": "bridge"
+  },
+  {
+    "category": "Geography & Places",
+    "question": "Hawaii drifts about three inches closer to ______ every year.",
+    "answer": "Japan"
+  },
+  {
+    "category": "Records & Firsts",
     "question": "The world record for the loudest burp is louder than a ______.",
     "answer": "jackhammer"
   },
   {
-    "question": "Oklahoma's official state vegetable is technically a fruit: the ______.",
-    "answer": "watermelon"
+    "category": "Records & Firsts",
+    "question": "The shortest war in history, between Britain and Zanzibar, lasted about ______ minutes.",
+    "answer": "38"
+  },
+  {
+    "category": "Records & Firsts",
+    "question": "The longest recorded case of hiccups lasted ______ years.",
+    "answer": "68"
+  },
+  {
+    "category": "Records & Firsts",
+    "question": "The first item ever sold on eBay was a broken ______.",
+    "answer": "laser pointer"
+  },
+  {
+    "category": "Records & Firsts",
+    "question": "The longest place name in the world, a hill in New Zealand, is spelled with 85 ______.",
+    "answer": "letters"
+  },
+  {
+    "category": "Records & Firsts",
+    "question": "The fastest goal in World Cup history was scored just ______ seconds after kickoff.",
+    "answer": "11"
+  },
+  {
+    "category": "Records & Firsts",
+    "question": "The first product ever ordered over the modern internet was a ______ by Sting.",
+    "answer": "CD"
+  },
+  {
+    "category": "Records & Firsts",
+    "question": "The world's first webcam was set up to watch a ______ at Cambridge University.",
+    "answer": "coffee pot"
+  },
+  {
+    "category": "Records & Firsts",
+    "question": "The world's longest wedding veil was longer than 63 ______.",
+    "answer": "football fields"
+  },
+  {
+    "category": "Records & Firsts",
+    "question": "The oldest known living tree, nearly 5,000 years old, is a bristlecone pine nicknamed ______.",
+    "answer": "Methuselah"
+  },
+  {
+    "category": "Records & Firsts",
+    "question": "The longest recorded flight by a chicken lasted 13 ______.",
+    "answer": "seconds"
+  },
+  {
+    "category": "Records & Firsts",
+    "question": "The fastest speeding ticket ever issued in the US was reportedly for ______ mph.",
+    "answer": "242"
+  },
+  {
+    "category": "Records & Firsts",
+    "question": "The first American alarm clock, built in 1787, could only ring at ______ o'clock.",
+    "answer": "4"
+  },
+  {
+    "category": "Records & Firsts",
+    "question": "The youngest person to climb Mount Everest was ______ years old.",
+    "answer": "13"
+  },
+  {
+    "category": "Records & Firsts",
+    "question": "Usain Bolt's 100-meter world record is ______ seconds.",
+    "answer": "9.58"
+  },
+  {
+    "category": "Records & Firsts",
+    "question": "The longest professional tennis match lasted over ______ hours.",
+    "answer": "11"
+  },
+  {
+    "category": "Records & Firsts",
+    "question": "The first person to survive going over Niagara Falls in a barrel was a 63-year-old ______.",
+    "answer": "schoolteacher"
+  },
+  {
+    "category": "Records & Firsts",
+    "question": "The world's largest rubber duck stands over ______ feet tall.",
+    "answer": "60"
+  },
+  {
+    "category": "Records & Firsts",
+    "question": "The world record for most Big Macs eaten in a lifetime is over ______.",
+    "answer": "34,000"
+  },
+  {
+    "category": "Records & Firsts",
+    "question": "The first handheld mobile phone call was made in ______.",
+    "answer": "1973"
+  },
+  {
+    "category": "Records & Firsts",
+    "question": "The first modern Olympics to include women was in ______.",
+    "answer": "1900"
+  },
+  {
+    "category": "Records & Firsts",
+    "question": "The loudest animal on Earth relative to its size is a tiny water insect that sings with its ______.",
+    "answer": "penis"
+  },
+  {
+    "category": "Records & Firsts",
+    "question": "The first video ever uploaded to YouTube was filmed at a ______.",
+    "answer": "zoo"
+  },
+  {
+    "category": "Records & Firsts",
+    "question": "The Guinness World Records book holds its own record: the book most often ______ from public libraries.",
+    "answer": "stolen"
+  },
+  {
+    "category": "Records & Firsts",
+    "question": "The longest word in English has 189,819 letters and takes over three hours to ______.",
+    "answer": "pronounce"
+  },
+  {
+    "category": "Pop Culture",
+    "question": "The longtime voice actors of Mickey Mouse and Minnie Mouse were ______ in real life.",
+    "answer": "married"
+  },
+  {
+    "category": "Pop Culture",
+    "question": "In the 1990s, Michael Jackson tried to buy Marvel Comics so he could play ______.",
+    "answer": "Spider-Man"
+  },
+  {
+    "category": "Pop Culture",
+    "question": "Daniel Radcliffe went through around 80 ______ filming the Harry Potter movies, partly by using them as drumsticks.",
+    "answer": "wands"
+  },
+  {
+    "category": "Pop Culture",
+    "question": "The blood in Psycho's famous shower scene was actually ______.",
+    "answer": "chocolate syrup"
+  },
+  {
+    "category": "Pop Culture",
+    "question": "James Earl Jones voiced both Darth Vader and ______.",
+    "answer": "Mufasa"
+  },
+  {
+    "category": "Pop Culture",
+    "question": "Before acting, Ronald Reagan worked as a lifeguard and saved ______ people.",
+    "answer": "77"
+  },
+  {
+    "category": "Pop Culture",
+    "question": "Toy Story's Woody has an official last name: Woody ______.",
+    "answer": "Pride"
+  },
+  {
+    "category": "Pop Culture",
+    "question": "Despite what most people remember, the Monopoly Man does not have a ______.",
+    "answer": "monocle"
+  },
+  {
+    "category": "Pop Culture",
+    "question": "The song 'Happy Birthday' was claimed under copyright until ______.",
+    "answer": "2016"
+  },
+  {
+    "category": "Pop Culture",
+    "question": "The Pixar desk lamp's name is ______.",
+    "answer": "Luxo Jr."
+  },
+  {
+    "category": "Pop Culture",
+    "question": "Shrek was originally voiced by ______, who recorded much of the film before he died.",
+    "answer": "Chris Farley"
+  },
+  {
+    "category": "Pop Culture",
+    "question": "Marge Simpson's tall hair was originally designed to hide her giant rabbit ______.",
+    "answer": "ears"
+  },
+  {
+    "category": "Pop Culture",
+    "question": "Bruce, the shark in Jaws, was named after Steven Spielberg's ______.",
+    "answer": "lawyer"
+  },
+  {
+    "category": "Pop Culture",
+    "question": "In Titanic, the hand actually sketching Rose belongs to ______.",
+    "answer": "James Cameron"
+  },
+  {
+    "category": "Pop Culture",
+    "question": "SpongeBob was originally going to be called ______.",
+    "answer": "SpongeBoy"
+  },
+  {
+    "category": "Pop Culture",
+    "question": "The same stock scream — the 'Wilhelm scream' — has appeared in over 400 ______.",
+    "answer": "movies"
+  },
+  {
+    "category": "Pop Culture",
+    "question": "In his very first game, Mario wasn't called Mario — he was called ______.",
+    "answer": "Jumpman"
+  },
+  {
+    "category": "Pop Culture",
+    "question": "The best-selling video game of all time is ______.",
+    "answer": "Minecraft"
+  },
+  {
+    "category": "Pop Culture",
+    "question": "Keanu Reeves' first name means 'cool breeze over the ______' in Hawaiian.",
+    "answer": "mountains"
+  },
+  {
+    "category": "Pop Culture",
+    "question": "Michael Myers' mask in Halloween is a cheap mask of ______ painted white.",
+    "answer": "William Shatner"
+  },
+  {
+    "category": "Pop Culture",
+    "question": "In 2021, Rihanna was officially declared a National ______ of Barbados.",
+    "answer": "Hero"
+  },
+  {
+    "category": "Pop Culture",
+    "question": "Yoda's face was partly modeled on Albert ______.",
+    "answer": "Einstein"
+  },
+  {
+    "category": "Pop Culture",
+    "question": "The Hollywood sign originally read ______.",
+    "answer": "Hollywoodland"
+  },
+  {
+    "category": "Pop Culture",
+    "question": "Barbie's full name is Barbara Millicent ______.",
+    "answer": "Roberts"
+  },
+  {
+    "category": "Pop Culture",
+    "question": "The T-rex roar in Jurassic Park includes the sound of a baby ______.",
+    "answer": "elephant"
   }
 ]
