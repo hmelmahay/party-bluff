@@ -108,13 +108,13 @@ function maybeStartVoting(code) {
     .map(([id, p]) => ({ text: p.lie, isTruth: false, ownerId: id }));
 
   // With few players there aren't enough lies to hide the truth in, so
-  // BluffBot pads the ballot to MIN_CHOICES using answers borrowed from
-  // other questions (same category first, so they sound plausible).
+  // BluffBot pads the ballot to MIN_CHOICES. Each question ships with
+  // hand-written decoys; category/any answers are only a fallback.
   const used = new Set([truth, ...lies].map((c) => normalizeAnswer(c.text)));
   const sameCategory = QUESTIONS.filter((x) => x.category === q.category).map((x) => x.answer);
   const anyCategory = QUESTIONS.map((x) => x.answer);
   const botLies = [];
-  for (const cand of [...shuffle(sameCategory), ...shuffle(anyCategory)]) {
+  for (const cand of [...shuffle(q.decoys || []), ...shuffle(sameCategory), ...shuffle(anyCategory)]) {
     if (1 + lies.length + botLies.length >= MIN_CHOICES) break;
     const n = normalizeAnswer(cand);
     if (used.has(n)) continue;
@@ -122,7 +122,12 @@ function maybeStartVoting(code) {
     botLies.push({ text: cand, isTruth: false, ownerId: BOT_ID });
   }
 
-  const combined = shuffle([truth, ...lies, ...botLies]);
+  // Display every choice starting lowercase — if only some entries kept
+  // their capitalization, case would leak who (or what) wrote them.
+  const combined = shuffle([truth, ...lies, ...botLies]).map((c) => ({
+    ...c,
+    text: c.text.charAt(0).toLowerCase() + c.text.slice(1),
+  }));
   room.choiceMeta = combined;
   room.choices = combined.map((c, i) => ({ index: i, text: c.text }));
   room.phase = "vote";
@@ -195,13 +200,16 @@ io.on("connection", (socket) => {
     broadcast(code);
   });
 
-  socket.on("startGame", () => {
+  socket.on("startGame", (opts) => {
     const room = rooms[socket.data.code];
     if (!room || room.hostId !== socket.id || room.phase !== "lobby") return;
     if (activePlayers(room).length < 2) {
       socket.emit("errorMsg", "Need at least 2 players.");
       return;
     }
+    const count = Math.max(3, Math.min(20, parseInt(opts && opts.count, 10) || 5));
+    room.qCount = count;
+    room.questions = shuffle(QUESTIONS).slice(0, count);
     startQuestion(socket.data.code);
   });
 
@@ -264,7 +272,7 @@ io.on("connection", (socket) => {
     const room = rooms[code];
     if (!room || room.hostId !== socket.id || room.phase !== "gameover") return;
     room.qIndex = 0;
-    room.questions = shuffle(QUESTIONS).slice(0, QUESTIONS_PER_GAME);
+    room.questions = shuffle(QUESTIONS).slice(0, room.qCount || QUESTIONS_PER_GAME);
     for (const p of Object.values(room.players)) p.score = 0;
     startQuestion(code);
   });

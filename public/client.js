@@ -6,6 +6,7 @@ let state = null;
 let myId = null;
 let submittedLie = false;
 let votedIndex = null;
+let lobbyQCount = null;
 
 socket.on("connect", () => { myId = socket.id; });
 
@@ -94,10 +95,26 @@ function renderLobby() {
       </ul>
     </div>
     ${isHost()
-      ? `<button id="startBtn" ${state.players.length < 2 ? "disabled" : ""}>Start Game${state.players.length < 2 ? " (need 2+)" : ""}</button>`
+      ? `<div class="card">
+           <div class="label">Questions this game</div>
+           <select id="qcount">
+             <option value="3">3 — quick round</option>
+             <option value="5" selected>5 — classic</option>
+             <option value="10">10 — full game</option>
+             <option value="15">15 — marathon</option>
+             <option value="20">20 — all night</option>
+           </select>
+         </div>
+         <button id="startBtn" ${state.players.length < 2 ? "disabled" : ""}>Start Game${state.players.length < 2 ? " (need 2+)" : ""}</button>`
       : `<div class="waiting">Waiting for the host to start…</div>`}
   `;
-  if (isHost()) document.getElementById("startBtn").onclick = () => socket.emit("startGame");
+  if (isHost()) {
+    const sel = document.getElementById("qcount");
+    if (lobbyQCount) sel.value = lobbyQCount;
+    sel.onchange = () => (lobbyQCount = sel.value);
+    document.getElementById("startBtn").onclick = () =>
+      socket.emit("startGame", { count: Number(sel.value) });
+  }
 }
 
 function renderBluff() {
