@@ -9,10 +9,22 @@ const server = http.createServer(app);
 const io = new Server(server);
 
 const PORT = process.env.PORT || 3000;
-const QUESTIONS = JSON.parse(fs.readFileSync(path.join(__dirname, "questions.json"), "utf8"));
+const QUESTIONS_FILE = process.env.QUESTIONS_FILE || path.join(__dirname, "questions.json");
+const QUESTIONS = JSON.parse(fs.readFileSync(QUESTIONS_FILE, "utf8"));
 const QUESTIONS_PER_GAME = 5;
 const POINTS_FOR_TRUTH = 1000;
 const POINTS_PER_FOOL = 500;
+const POINTS_FOR_GUESS = 500;
+
+// Compare loosely so "The Belt Buckle." still counts as guessing "belt buckle"
+function normalizeAnswer(str) {
+  return str
+    .toLowerCase()
+    .replace(/[.,!?'"]/g, "")
+    .replace(/\s+/g, " ")
+    .replace(/^(a|an|the) /, "")
+    .trim();
+}
 
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -76,6 +88,7 @@ function startQuestion(code) {
   for (const p of Object.values(room.players)) {
     p.lie = null;
     p.vote = null;
+    p.guessedTruth = false;
   }
   broadcast(code);
 }
@@ -118,6 +131,7 @@ function maybeReveal(code) {
   }
   room.reveal = {
     answer: room.questions[room.qIndex].answer,
+    truthGuessers: Object.values(room.players).filter((p) => p.guessedTruth).map((p) => p.name),
     results,
     scores: publicPlayers(room)
       .map((p) => ({ name: p.name, score: p.score }))
@@ -178,9 +192,15 @@ io.on("connection", (socket) => {
     if (!p || p.lie !== null) return cb({ ok: false, error: "Lie already submitted." });
     lie = (lie || "").trim().slice(0, 60);
     if (!lie) return cb({ ok: false, error: "Write something first!" });
-    // Reject lies that match the real answer
-    if (lie.toLowerCase() === room.questions[room.qIndex].answer.toLowerCase()) {
-      return cb({ ok: false, error: "Too close to the truth! Try a different lie." });
+    // Guessing the real answer earns a bonus — then you still owe us a lie
+    if (normalizeAnswer(lie) === normalizeAnswer(room.questions[room.qIndex].answer)) {
+      if (!p.guessedTruth) {
+        p.guessedTruth = true;
+        p.score += POINTS_FOR_GUESS;
+        broadcast(code);
+        return cb({ ok: false, guessedTruth: true, error: `🎯 You guessed the REAL answer! +${POINTS_FOR_GUESS} points. Now write a lie to fool the others.` });
+      }
+      return cb({ ok: false, error: "That's the real answer — you already got your bonus. Write a lie!" });
     }
     p.lie = lie;
     cb({ ok: true });
