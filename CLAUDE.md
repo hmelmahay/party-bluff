@@ -16,6 +16,7 @@ Players join from their phones with a 4-letter room code (2–12 per room). Each
 - Ballot always has ≥5 choices — with <4 players, BluffBot 🤖 pads it using the question's hand-written `decoys` (fallback: answers from other questions, same category first)
 - Every ballot entry is displayed starting lowercase so capitalization never reveals which answers came from the JSON vs. typed by players
 - Host picks game length in the lobby: 3/5/10/15/20 questions (server clamps 3–20; Play Again reuses it)
+- Host picks a category in the lobby (or "Mix of everything"; unknown categories fall back to the mix; Play Again reuses it). The current question's category shows in the progress line during rounds.
 - Lie/answer matching is fuzzy: case, punctuation, and leading a/an/the are ignored
 - Phases: `lobby → bluff → vote → reveal → (repeat) → gameover`
 
@@ -51,4 +52,4 @@ npm start          # http://localhost:3000, or PORT=xxxx
 - GitHub CLI (`gh`) is authenticated as hmelmahay; SpyderMYK has push access
 - "Close pull request" ≠ merge — that mistake has been made once already; the green **Merge pull request** button is the one that ships
 - When adding questions: verify facts are true, keep answers short enough to vote on (≤60 chars), include the `______` blank, add 3 decoys, and don't duplicate an existing question or let a decoy collide with any true answer
-- Ideas parked as future work: show category name during rounds, host picks category in the lobby, round timer, sounds/animations on reveal, dedicated TV-screen view
+- Ideas parked as future work: round timer, sounds/animations on reveal, dedicated TV-screen view

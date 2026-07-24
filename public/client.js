@@ -7,6 +7,7 @@ let myId = null;
 let submittedLie = false;
 let votedIndex = null;
 let lobbyQCount = null;
+let lobbyCategory = null;
 
 socket.on("connect", () => { myId = socket.id; });
 
@@ -104,6 +105,11 @@ function renderLobby() {
              <option value="15">15 — marathon</option>
              <option value="20">20 — all night</option>
            </select>
+           <div class="label" style="margin-top:12px;">Category</div>
+           <select id="qcategory">
+             <option value="">🎲 Mix of everything</option>
+             ${(state.categories || []).map((c) => `<option value="${esc(c)}">${esc(c)}</option>`).join("")}
+           </select>
          </div>
          <button id="startBtn" ${state.players.length < 2 ? "disabled" : ""}>Start Game${state.players.length < 2 ? " (need 2+)" : ""}</button>`
       : `<div class="waiting">Waiting for the host to start…</div>`}
@@ -112,15 +118,18 @@ function renderLobby() {
     const sel = document.getElementById("qcount");
     if (lobbyQCount) sel.value = lobbyQCount;
     sel.onchange = () => (lobbyQCount = sel.value);
+    const catSel = document.getElementById("qcategory");
+    if (lobbyCategory) catSel.value = lobbyCategory;
+    catSel.onchange = () => (lobbyCategory = catSel.value);
     document.getElementById("startBtn").onclick = () =>
-      socket.emit("startGame", { count: Number(sel.value) });
+      socket.emit("startGame", { count: Number(sel.value), category: catSel.value || null });
   }
 }
 
 function renderBluff() {
   const waitingOn = state.players.filter((p) => p.connected && !p.submittedLie).map((p) => p.name);
   screen.innerHTML = `
-    <div class="progress">Question ${state.qNumber} of ${state.qTotal}</div>
+    <div class="progress">Question ${state.qNumber} of ${state.qTotal}${state.category ? ` · <span class="cat">${esc(state.category)}</span>` : ""}</div>
     <div class="card">
       <div class="qtext">${esc(state.question)}</div>
       ${submittedLie
@@ -150,7 +159,7 @@ function renderBluff() {
 function renderVote() {
   const waitingOn = state.players.filter((p) => p.connected && !p.voted).map((p) => p.name);
   screen.innerHTML = `
-    <div class="progress">Question ${state.qNumber} of ${state.qTotal}</div>
+    <div class="progress">Question ${state.qNumber} of ${state.qTotal}${state.category ? ` · <span class="cat">${esc(state.category)}</span>` : ""}</div>
     <div class="card">
       <div class="qtext">${esc(state.question)}</div>
       <div class="label">Which one is the TRUTH?</div>
@@ -178,7 +187,7 @@ function renderVote() {
 function renderReveal() {
   const r = state.reveal;
   screen.innerHTML = `
-    <div class="progress">Question ${state.qNumber} of ${state.qTotal}</div>
+    <div class="progress">Question ${state.qNumber} of ${state.qTotal}${state.category ? ` · <span class="cat">${esc(state.category)}</span>` : ""}</div>
     <div class="card">
       <div class="qtext">${esc(state.question)}</div>
       <div class="label">The truth was</div>
