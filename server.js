@@ -11,6 +11,7 @@ const io = new Server(server);
 const PORT = process.env.PORT || 3000;
 const QUESTIONS_FILE = process.env.QUESTIONS_FILE || path.join(__dirname, "questions.json");
 const QUESTIONS = JSON.parse(fs.readFileSync(QUESTIONS_FILE, "utf8"));
+const CATEGORIES = [...new Set(QUESTIONS.map((q) => q.category).filter(Boolean))];
 const QUESTIONS_PER_GAME = 5;
 const POINTS_FOR_TRUTH = 1000;
 const POINTS_PER_FOOL = 500;
@@ -74,6 +75,8 @@ function broadcast(code) {
     qNumber: room.qIndex + 1,
     qTotal: room.questions.length,
     question: room.phase === "lobby" || room.phase === "gameover" ? null : room.questions[room.qIndex].question,
+    category: room.phase === "lobby" || room.phase === "gameover" ? null : room.questions[room.qIndex].category || null,
+    categories: room.phase === "lobby" ? CATEGORIES : null,
     choices: room.phase === "vote" || room.phase === "reveal" ? room.choices : null,
     reveal: room.phase === "reveal" || room.phase === "gameover" ? room.reveal : null,
   });
@@ -81,6 +84,10 @@ function broadcast(code) {
 
 function activePlayers(room) {
   return Object.values(room.players).filter((p) => p.connected);
+}
+
+function questionPool(category) {
+  return category ? QUESTIONS.filter((q) => q.category === category) : QUESTIONS;
 }
 
 function startQuestion(code) {
@@ -208,8 +215,11 @@ io.on("connection", (socket) => {
       return;
     }
     const count = Math.max(3, Math.min(20, parseInt(opts && opts.count, 10) || 5));
+    // Unknown categories (or none) mean the full mix
+    const category = CATEGORIES.includes(opts && opts.category) ? opts.category : null;
     room.qCount = count;
-    room.questions = shuffle(QUESTIONS).slice(0, count);
+    room.qCategory = category;
+    room.questions = shuffle(questionPool(category)).slice(0, count);
     startQuestion(socket.data.code);
   });
 
@@ -272,7 +282,7 @@ io.on("connection", (socket) => {
     const room = rooms[code];
     if (!room || room.hostId !== socket.id || room.phase !== "gameover") return;
     room.qIndex = 0;
-    room.questions = shuffle(QUESTIONS).slice(0, room.qCount || QUESTIONS_PER_GAME);
+    room.questions = shuffle(questionPool(room.qCategory)).slice(0, room.qCount || QUESTIONS_PER_GAME);
     for (const p of Object.values(room.players)) p.score = 0;
     startQuestion(code);
   });
