@@ -1,0 +1,21 @@
+# Pings Render's deploy hook on every push to main, so merges ship themselves.
+# No-ops (green) until the RENDER_DEPLOY_HOOK secret is set in repo settings:
+# Render dashboard -> party-bluff service -> Settings -> Deploy Hook -> copy URL,
+# then GitHub -> Settings -> Secrets and variables -> Actions -> new secret.
+name: deploy
+on:
+  push:
+    branches: [main]
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Render deploy
+        env:
+          RENDER_DEPLOY_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK }}
+        run: |
+          if [ -n "$RENDER_DEPLOY_HOOK" ]; then
+            curl -fsS "$RENDER_DEPLOY_HOOK" && echo "deploy triggered"
+          else
+            echo "RENDER_DEPLOY_HOOK secret not set yet — skipping (deploy manually)"
+          fi
