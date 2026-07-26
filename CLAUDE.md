@@ -43,7 +43,7 @@ npm start          # http://localhost:3000, or PORT=xxxx
 
 - Live at **https://party-bluff.onrender.com** — free tier, so it sleeps when idle (first visit after a quiet spell takes ~50s) and a sleep drops in-memory rooms
 - Deploys from `render.yaml` blueprint (Node, `npm install` / `npm start`), service name `party-bluff` on Steve's Render account
-- ⚠️ **Merging to main does NOT auto-deploy.** The repo was connected by public URL, so Render has no webhook. After merging, deploy manually: Render dashboard → party-bluff → Manual Deploy → "Deploy latest commit". (Fix someday: install the Render GitHub app on this repo, then merges auto-deploy.)
+- **Merging to main auto-deploys** via `.github/workflows/deploy.yml`, which pings the service's Render **Deploy Hook** (Settings → Deploy Hook) on every push to main. The hook URL lives in the repo secret `RENDER_DEPLOY_HOOK` — Render has no webhook here because the repo was connected by public URL, so this replaces it. If the secret is ever missing the workflow no-ops with a notice and you can still Manual Deploy from the dashboard.
 - Verify a deploy landed by curling a string only the new code contains, e.g. `curl -s https://party-bluff.onrender.com/client.js | grep <new-code-marker>`
 
 ## Conventions & gotchas
