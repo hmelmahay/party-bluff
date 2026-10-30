@@ -3,6 +3,7 @@ const express = require("express");
 const http = require("http");
 const { Server } = require("socket.io");
 const fs = require("fs");
+const crypto = require("crypto");
 
 const app = express();
 const server = http.createServer(app);
@@ -32,7 +33,10 @@ function normalizeAnswer(str) {
 
 app.use(express.static(path.join(__dirname, "public")));
 
-// rooms[code] = { hostId, phase, qIndex, questions, players: { socketId: {name, score, lie, vote, connected} } }
+// rooms[code] = { hostId, phase, qIndex, questions, players: { playerId: {name, score, lie, vote, connected, token, socketId} } }
+// Seats are keyed by playerId, not socket.id: a phone that sleeps comes back on a new
+// socket and reclaims its seat with its token. playerId is public (it's in every
+// state broadcast); the token is secret and only ever sent to its own player.
 const rooms = {};
 
 function makeCode() {
@@ -70,7 +74,7 @@ function broadcast(code) {
   io.to(code).emit("state", {
     code,
     phase: room.phase,
-    hostId: room.hostId,
+    hostId: currentHostId(room),
     players: publicPlayers(room),
     qNumber: room.qIndex + 1,
     qTotal: room.questions.length,
@@ -84,6 +88,23 @@ function broadcast(code) {
 
 function activePlayers(room) {
   return Object.values(room.players).filter((p) => p.connected);
+}
+
+// The room's creator stays host. While they're disconnected the first connected
+// player stands in, and the creator gets the controls back when they rejoin.
+function currentHostId(room) {
+  if (room.players[room.hostId].connected) return room.hostId;
+  return Object.keys(room.players).find((id) => room.players[id].connected) || room.hostId;
+}
+
+function seatPlayer(socket, code, name) {
+  const id = crypto.randomUUID();
+  const token = crypto.randomUUID();
+  rooms[code].players[id] = { name: name.slice(0, 20), score: 0, lie: null, vote: null, connected: true, token, socketId: socket.id };
+  socket.join(code);
+  socket.data.code = code;
+  socket.data.playerId = id;
+  return { ok: true, code, playerId: id, token };
 }
 
 function questionPool(category) {
@@ -178,7 +199,7 @@ io.on("connection", (socket) => {
   socket.on("createRoom", ({ name }, cb) => {
     const code = makeCode();
     rooms[code] = {
-      hostId: socket.id,
+      hostId: null,
       phase: "lobby",
       qIndex: 0,
       questions: shuffle(QUESTIONS).slice(0, QUESTIONS_PER_GAME),
@@ -187,10 +208,9 @@ io.on("connection", (socket) => {
       choiceMeta: null,
       reveal: null,
     };
-    rooms[code].players[socket.id] = { name: name.slice(0, 20), score: 0, lie: null, vote: null, connected: true };
-    socket.join(code);
-    socket.data.code = code;
-    cb({ ok: true, code });
+    const seat = seatPlayer(socket, code, name);
+    rooms[code].hostId = seat.playerId;
+    cb(seat);
     broadcast(code);
   });
 
@@ -200,16 +220,41 @@ io.on("connection", (socket) => {
     if (!room) return cb({ ok: false, error: "Room not found." });
     if (room.phase !== "lobby") return cb({ ok: false, error: "Game already started." });
     if (Object.keys(room.players).length >= 12) return cb({ ok: false, error: "Room is full (12 max)." });
-    room.players[socket.id] = { name: name.slice(0, 20), score: 0, lie: null, vote: null, connected: true };
+    cb(seatPlayer(socket, code, name));
+    broadcast(code);
+  });
+
+  // A reconnecting phone has a new socket.id, so it proves who it is with the
+  // token it got from createRoom/joinRoom. Works in any phase, unlike joinRoom.
+  socket.on("rejoin", (data, cb = () => {}) => {
+    const { code: rawCode, token } = data || {};
+    // Normalize like joinRoom; uppercasing also stops "__proto__" & co. matching a room
+    const code = String(rawCode || "").toUpperCase().trim();
+    const room = rooms[code];
+    const id = room && Object.keys(room.players).find((pid) => room.players[pid].token === token);
+    if (!id) return cb({ ok: false, error: "That game has ended." });
+    const p = room.players[id];
+    // Only the newest socket speaks for a seat. The old one may be a dead
+    // connection the server hasn't timed out yet, or a duplicated tab. Wiping
+    // its data also makes its eventual disconnect a no-op.
+    const old = io.sockets.sockets.get(p.socketId);
+    if (old && old !== socket) {
+      old.leave(code);
+      old.data = {};
+      old.emit("replaced");
+    }
+    p.socketId = socket.id;
+    p.connected = true;
     socket.join(code);
     socket.data.code = code;
-    cb({ ok: true, code });
+    socket.data.playerId = id;
+    cb({ ok: true, code, playerId: id });
     broadcast(code);
   });
 
   socket.on("startGame", (opts) => {
     const room = rooms[socket.data.code];
-    if (!room || room.hostId !== socket.id || room.phase !== "lobby") return;
+    if (!room || currentHostId(room) !== socket.data.playerId || room.phase !== "lobby") return;
     if (activePlayers(room).length < 2) {
       socket.emit("errorMsg", "Need at least 2 players.");
       return;
@@ -227,7 +272,7 @@ io.on("connection", (socket) => {
     const code = socket.data.code;
     const room = rooms[code];
     if (!room || room.phase !== "bluff") return cb({ ok: false, error: "Not accepting lies right now." });
-    const p = room.players[socket.id];
+    const p = room.players[socket.data.playerId];
     if (!p || p.lie !== null) return cb({ ok: false, error: "Lie already submitted." });
     lie = (lie || "").trim().slice(0, 60);
     if (!lie) return cb({ ok: false, error: "Write something first!" });
@@ -251,11 +296,11 @@ io.on("connection", (socket) => {
     const code = socket.data.code;
     const room = rooms[code];
     if (!room || room.phase !== "vote") return cb({ ok: false, error: "Not accepting votes right now." });
-    const p = room.players[socket.id];
+    const p = room.players[socket.data.playerId];
     if (!p || p.vote !== null) return cb({ ok: false, error: "Vote already cast." });
     const choice = room.choiceMeta[index];
     if (!choice) return cb({ ok: false, error: "Invalid choice." });
-    if (choice.ownerId === socket.id) {
+    if (choice.ownerId === socket.data.playerId) {
       return cb({ ok: false, error: "You can't vote for your own lie!" });
     }
     p.vote = index;
@@ -267,7 +312,7 @@ io.on("connection", (socket) => {
   socket.on("nextQuestion", () => {
     const code = socket.data.code;
     const room = rooms[code];
-    if (!room || room.hostId !== socket.id || room.phase !== "reveal") return;
+    if (!room || currentHostId(room) !== socket.data.playerId || room.phase !== "reveal") return;
     if (room.qIndex + 1 >= room.questions.length) {
       room.phase = "gameover";
       broadcast(code);
@@ -280,7 +325,7 @@ io.on("connection", (socket) => {
   socket.on("playAgain", () => {
     const code = socket.data.code;
     const room = rooms[code];
-    if (!room || room.hostId !== socket.id || room.phase !== "gameover") return;
+    if (!room || currentHostId(room) !== socket.data.playerId || room.phase !== "gameover") return;
     room.qIndex = 0;
     room.questions = shuffle(questionPool(room.qCategory)).slice(0, room.qCount || QUESTIONS_PER_GAME);
     for (const p of Object.values(room.players)) p.score = 0;
@@ -291,7 +336,7 @@ io.on("connection", (socket) => {
     const code = socket.data.code;
     const room = rooms[code];
     if (!room) return;
-    const p = room.players[socket.id];
+    const p = room.players[socket.data.playerId];
     if (p) p.connected = false;
     // If everyone is gone, delete the room after a grace period
     if (activePlayers(room).length === 0) {
@@ -299,11 +344,6 @@ io.on("connection", (socket) => {
         if (rooms[code] && activePlayers(rooms[code]).length === 0) delete rooms[code];
       }, 5 * 60 * 1000);
     } else {
-      // Hand host to another connected player if the host left
-      if (room.hostId === socket.id) {
-        const next = Object.entries(room.players).find(([, pl]) => pl.connected);
-        if (next) room.hostId = next[0];
-      }
       // Don't stall the round on a disconnected player
       if (room.phase === "bluff") maybeStartVoting(code);
       if (room.phase === "vote") maybeReveal(code);
