@@ -1,5 +1,7 @@
 // Reconnect test: a player who drops mid-round, and the host, come back on a
 // new socket with their rejoin token and keep their seat, score and host role.
+// A drop shorter than the reconnect grace costs nothing; a longer one lets the
+// round move on. The server runs with a 1-second grace instead of 15.
 //
 //   npm i --no-save socket.io-client
 //   node test/reconnect.js
@@ -18,6 +20,8 @@ const QUESTIONS = [1, 2, 3].map((n) => ({
   decoys: [`decoy ${n}a`, `decoy ${n}b`, `decoy ${n}c`],
 }));
 const truthOf = (st) => QUESTIONS.find((q) => q.question === st.question).answer;
+const GRACE = 1000; // RECONNECT_GRACE_MS for the test server
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 function freePort() {
   return new Promise((resolve) => {
@@ -34,7 +38,7 @@ async function startServer() {
   fs.writeFileSync(questionsFile, JSON.stringify(QUESTIONS));
   const port = await freePort();
   const proc = spawn(process.execPath, [path.join(__dirname, "..", "server.js")], {
-    env: { ...process.env, PORT: String(port), QUESTIONS_FILE: questionsFile },
+    env: { ...process.env, PORT: String(port), QUESTIONS_FILE: questionsFile, RECONNECT_GRACE_MS: String(GRACE) },
     stdio: ["ignore", "pipe", "inherit"],
   });
   await new Promise((resolve, reject) => {
@@ -229,16 +233,55 @@ async function run(url) {
   await sync(ann2);
   assert.strictEqual(player(ann2.latest, CAT).connected, true, "old socket's disconnect doesn't knock Cat out");
   assert.strictEqual(ann2.latest.phase, "bluff", "round still waits on Cat");
-  await lie(cat2, "cat lie 3");
+  pass("rejoin while the old socket is still open: old one is cut off, Cat plays on");
+
+  // Cat, the last one writing, drops and is back inside the grace: nobody sees
+  // her leave, and the vote doesn't start without her lie
+  const watched = [];
+  const watch = (s) => watched.push(s);
+  ann2.on("state", watch);
+  cat2.disconnect();
+  const cat3 = await connect(url);
+  const catQuick = await ask(cat3, "rejoin", { code, token: catSeat.token });
+  assert.ok(catQuick.ok && catQuick.playerId === CAT, "Cat rejoins inside the grace");
+  await sleep(GRACE + 300); // past the point the drop would have counted
+  await sync(ann2);
+  ann2.off("state", watch);
+  assert.strictEqual(ann2.latest.phase, "bluff", "round waited for Cat instead of starting the vote");
+  assert.ok(watched.every((s) => player(s, CAT).connected), "nobody ever saw Cat as gone");
+  await lie(cat3, "cat lie 3");
   st = await waitFor(ann2, "question 3 vote", (s) => s.phase === "vote" && s.qNumber === 3);
+  pass("drop shorter than the grace: Cat never shows as gone and still writes her lie");
+
+  // Cat drops again while voting and stays gone: once the grace runs out, the
+  // round goes on without her vote
   await vote(ann2, st, truthOf(st)); // Ann +1000
   await vote(bob2, st, "cat lie 3"); // Cat +500
-  await vote(cat2, st, truthOf(st)); // Cat +1000
+  const dropped = Date.now();
+  cat3.disconnect();
   st = await waitFor(ann2, "question 3 reveal", (s) => s.phase === "reveal" && s.qNumber === 3);
-  assert.deepStrictEqual(scores(st), { Ann: 3000, Bob: 3000, Cat: 1500 });
+  const waited = Date.now() - dropped;
+  assert.ok(waited >= GRACE - 50, `reveal came after ${waited} ms, before the grace ran out`);
+  assert.strictEqual(player(st, CAT).connected, false);
+  assert.ok(!st.reveal.results.some((r) => r.voter === "Cat"), "Cat has no vote in the reveal");
+  assert.deepStrictEqual(scores(st), { Ann: 3000, Bob: 3000, Cat: 500 });
+  pass(`drop longer than the grace: reveal comes ${waited} ms later without Cat's vote`);
+
+  // Everyone leaves mid-round, then Ann (who already answered) comes back: the
+  // round mustn't sit waiting on players who are gone
   ann2.emit("nextQuestion");
   await waitFor(ann2, "game over", (s) => s.phase === "gameover");
-  pass("rejoin while the old socket is still open: old one is cut off, Cat plays on (1500)");
+  ann2.emit("playAgain");
+  await waitFor(ann2, "replay", (s) => s.phase === "bluff" && s.qNumber === 1);
+  await lie(ann2, "ann lie again");
+  ann2.disconnect();
+  bob2.disconnect();
+  await sleep(GRACE + 300);
+  const ann3 = await connect(url);
+  const annAlone = await ask(ann3, "rejoin", { code, token: annSeat.token });
+  assert.ok(annAlone.ok, `Ann's rejoin refused: ${annAlone.error}`);
+  await waitFor(ann3, "vote starts for the one player left", (s) => s.phase === "vote");
+  pass("everyone leaves mid-round: Ann comes back to the vote, not a round stuck waiting on nobody");
 
   // Existing rules still hold, and tokens stay private
   const dan = await connect(url);
@@ -249,7 +292,7 @@ async function run(url) {
   for (const junk of [null, "TBSW", { code: "__proto__" }, { code: "constructor", token: 1 }, { code: 42 }]) {
     assert.ok(!(await ask(dan, "rejoin", junk)).ok, `junk rejoin ${JSON.stringify(junk)} is refused`);
   }
-  const annReplaced = waitForEvent(ann2, "replaced"); // the next rejoin moves Ann's seat to Dan's socket
+  const annReplaced = waitForEvent(ann3, "replaced"); // the next rejoin moves Ann's seat to Dan's socket
   const lower = await ask(dan, "rejoin", { code: code.toLowerCase(), token: annSeat.token });
   assert.ok(lower.ok && lower.playerId === ANN, "room code is case-insensitive on rejoin");
   await annReplaced;
