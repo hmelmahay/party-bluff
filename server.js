@@ -20,6 +20,9 @@ const POINTS_FOR_GUESS = 500;
 const MIN_CHOICES = 5;
 const BOT_ID = "__bot__";
 const BOT_NAME = "BluffBot 🤖";
+// A dropped connection still counts as present this long, so a phone that slept
+// or switched apps can rejoin without losing its turn or the host role
+const RECONNECT_GRACE_MS = Number(process.env.RECONNECT_GRACE_MS) || 15 * 1000;
 
 // Compare loosely so "The Belt Buckle." still counts as guessing "belt buckle"
 function normalizeAnswer(str) {
@@ -243,6 +246,7 @@ io.on("connection", (socket) => {
       old.data = {};
       old.emit("replaced");
     }
+    clearTimeout(p.leaveTimer);
     p.socketId = socket.id;
     p.connected = true;
     socket.join(code);
@@ -250,6 +254,9 @@ io.on("connection", (socket) => {
     socket.data.playerId = id;
     cb({ ok: true, code, playerId: id });
     broadcast(code);
+    // If everyone else left mid-round, the round may only have been waiting on them
+    if (room.phase === "bluff") maybeStartVoting(code);
+    if (room.phase === "vote") maybeReveal(code);
   });
 
   socket.on("startGame", (opts) => {
@@ -337,18 +344,24 @@ io.on("connection", (socket) => {
     const room = rooms[code];
     if (!room) return;
     const p = room.players[socket.data.playerId];
-    if (p) p.connected = false;
-    // If everyone is gone, delete the room after a grace period
-    if (activePlayers(room).length === 0) {
-      setTimeout(() => {
-        if (rooms[code] && activePlayers(rooms[code]).length === 0) delete rooms[code];
-      }, 5 * 60 * 1000);
-    } else {
-      // Don't stall the round on a disconnected player
-      if (room.phase === "bluff") maybeStartVoting(code);
-      if (room.phase === "vote") maybeReveal(code);
-      broadcast(code);
-    }
+    if (!p) return;
+    // Nobody sees the player leave until RECONNECT_GRACE_MS passes without a rejoin
+    clearTimeout(p.leaveTimer);
+    p.leaveTimer = setTimeout(() => {
+      if (rooms[code] !== room) return;
+      p.connected = false;
+      // If everyone is gone, delete the room after a grace period
+      if (activePlayers(room).length === 0) {
+        setTimeout(() => {
+          if (rooms[code] && activePlayers(rooms[code]).length === 0) delete rooms[code];
+        }, 5 * 60 * 1000);
+      } else {
+        // Don't stall the round on a disconnected player
+        if (room.phase === "bluff") maybeStartVoting(code);
+        if (room.phase === "vote") maybeReveal(code);
+        broadcast(code);
+      }
+    }, RECONNECT_GRACE_MS);
   });
 });
 
