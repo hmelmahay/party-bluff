@@ -47,9 +47,8 @@ npm start          # http://localhost:3000, or PORT=xxxx
 
 - Live at **https://party-bluff.onrender.com** — free tier, so it sleeps when idle (first visit after a quiet spell takes ~50s) and a sleep drops in-memory rooms
 - Deploys from `render.yaml` blueprint (Node, `npm install` / `npm start`), service name `party-bluff` on Steve's Render account
-- Render deploys every push to main by itself.  On 2026-10-30 a merge was live 16 s later while no workflow had run yet.  (In July it couldn't, because the repo was linked by public URL.  That's why the deploy-hook workflow exists.)
-- `.github/workflows/deploy.yml` is a manual backup only:  Actions → deploy → Run workflow pings the Render deploy hook (repo secret `RENDER_DEPLOY_HOOK`).  It no longer runs on push, since that sent Render a second deploy for every merge.  Or deploy from Render:  dashboard → party-bluff → Manual Deploy → "Deploy latest commit".
-- Verify a deploy landed by curling a string only the new code contains, e.g. `curl -s https://party-bluff.onrender.com/client.js | grep <new-code-marker>`.  For a commit with no served-code change, `curl -sI https://party-bluff.onrender.com/client.js` shows a `last-modified` close to the deploy time, because it's when Render checked the code out.
+- Pushes to main auto-deploy via `.github/workflows/deploy.yml`, which pings the Render deploy hook (repo secret `RENDER_DEPLOY_HOOK`). If the secret is unset the workflow no-ops — then deploy manually: Render dashboard → party-bluff → Manual Deploy → "Deploy latest commit".
+- Verify a deploy landed by curling a string only the new code contains, e.g. `curl -s https://party-bluff.onrender.com/client.js | grep <new-code-marker>`
 
 ## Conventions & gotchas
 
