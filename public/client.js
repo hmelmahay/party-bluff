@@ -55,13 +55,20 @@ socket.on("replaced", () => {
 socket.on("errorMsg", (msg) => showToast(msg));
 
 socket.on("state", (s) => {
-  const phaseChanged = !state || state.phase !== s.phase || state.qNumber !== s.qNumber;
+  // Question text too:  a phone that slept through Play Again can wake up at
+  // the same phase and question number of the next game
+  const phaseChanged = !state || state.phase !== s.phase || state.qNumber !== s.qNumber || state.question !== s.question;
   state = s;
   if (phaseChanged) {
     submittedLie = false;
     votedIndex = null;
     lieDraft = "";
   }
+  // The server's "not yet" beats a lock left over from an earlier round,
+  // even one that drew the same question
+  const mine = me();
+  if (mine && !mine.submittedLie) submittedLie = false;
+  if (mine && !mine.voted) votedIndex = null;
   render();
 });
 
