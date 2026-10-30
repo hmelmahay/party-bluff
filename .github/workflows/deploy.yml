@@ -1,11 +1,11 @@
-# Pings Render's deploy hook on every push to main, so merges ship themselves.
+# Manual backup deploy:  Actions tab -> deploy -> Run workflow pings Render's
+# deploy hook.  It doesn't run on push because Render already deploys every push
+# to main by itself, so a push trigger here sends a second deploy per merge.
 # No-ops (green) until the RENDER_DEPLOY_HOOK secret is set in repo settings:
 # Render dashboard -> party-bluff service -> Settings -> Deploy Hook -> copy URL,
 # then GitHub -> Settings -> Secrets and variables -> Actions -> new secret.
 name: deploy
 on:
-  push:
-    branches: [main]
   workflow_dispatch: {}
 jobs:
   render:
