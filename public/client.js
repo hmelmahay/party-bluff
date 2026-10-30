@@ -8,6 +8,7 @@ let myId = null;
 let session = loadSession(); // { code, token } from createRoom/joinRoom, for rejoining
 let submittedLie = false;
 let votedIndex = null;
+let lieDraft = ""; // the lie box's text, so a re-render mid-typing doesn't wipe it
 let lobbyQCount = null;
 let lobbyCategory = null;
 
@@ -59,6 +60,7 @@ socket.on("state", (s) => {
   if (phaseChanged) {
     submittedLie = false;
     votedIndex = null;
+    lieDraft = "";
   }
   render();
 });
@@ -172,6 +174,10 @@ function renderBluff() {
   const waitingOn = state.players.filter((p) => p.connected && !p.submittedLie).map((p) => p.name);
   // The server's copy covers a reload, when the local flag starts over
   const locked = submittedLie || (me() && me().submittedLie);
+  // Every state update (a submit, drop or rejoin) rebuilds this screen, so
+  // note the cursor in the old lie box to put it back in the new one
+  const old = document.getElementById("lie");
+  const caret = old && document.activeElement === old ? [old.selectionStart, old.selectionEnd] : null;
   screen.innerHTML = `
     <div class="progress">Question ${state.qNumber} of ${state.qTotal}${state.category ? ` · <span class="cat">${esc(state.category)}</span>` : ""}</div>
     <div class="card">
@@ -183,6 +189,13 @@ function renderBluff() {
            <button id="lieBtn">Submit Lie</button>`}
     </div>`;
   if (!locked) {
+    const input = document.getElementById("lie");
+    input.value = lieDraft;
+    input.oninput = () => (lieDraft = input.value);
+    if (caret) {
+      input.focus();
+      input.setSelectionRange(caret[0], caret[1]);
+    }
     const submit = () => {
       const lie = document.getElementById("lie").value.trim();
       if (!lie) return showToast("Write something first!");
@@ -191,6 +204,11 @@ function renderBluff() {
           submittedLie = true;
           render();
         } else {
+          // The real answer earned its bonus but can't be the lie, so clear the box
+          if (res.guessedTruth) {
+            lieDraft = "";
+            render();
+          }
           showToast(res.error);
         }
       });
