@@ -1,15 +1,55 @@
 const socket = io();
 const screen = document.getElementById("screen");
 const toast = document.getElementById("toast");
+const SESSION_KEY = "partyBluffSession";
 
 let state = null;
 let myId = null;
+let session = loadSession(); // { code, token } from createRoom/joinRoom, for rejoining
 let submittedLie = false;
 let votedIndex = null;
 let lobbyQCount = null;
 let lobbyCategory = null;
 
-socket.on("connect", () => { myId = socket.id; });
+// sessionStorage (not localStorage) so a reload of this tab rejoins, while a
+// second tab on the same device can still join as a different player
+function loadSession() {
+  try { return JSON.parse(sessionStorage.getItem(SESSION_KEY)); } catch (e) { return null; }
+}
+
+function saveSession(res) {
+  session = { code: res.code, token: res.token };
+  myId = res.playerId;
+  try { sessionStorage.setItem(SESSION_KEY, JSON.stringify(session)); } catch (e) {}
+}
+
+function forgetSession() {
+  session = null;
+  myId = null;
+  state = null;
+  try { sessionStorage.removeItem(SESSION_KEY); } catch (e) {}
+}
+
+// A phone that sleeps comes back on a new socket.id, so every (re)connect
+// reclaims our seat — score, lie, vote and host role — with the token
+socket.on("connect", () => {
+  if (!session) return;
+  socket.emit("rejoin", session, (res) => {
+    if (res.ok) {
+      myId = res.playerId;
+    } else {
+      forgetSession();
+      render();
+      showToast(res.error);
+    }
+  });
+});
+
+socket.on("replaced", () => {
+  forgetSession();
+  render();
+  showToast("You rejoined this game from another tab.");
+});
 
 socket.on("errorMsg", (msg) => showToast(msg));
 
@@ -70,7 +110,8 @@ function renderJoin() {
   document.getElementById("createBtn").onclick = () => {
     if (!name()) return showToast("Enter your name first!");
     socket.emit("createRoom", { name: name() }, (res) => {
-      if (!res.ok) showToast(res.error);
+      if (res.ok) saveSession(res);
+      else showToast(res.error);
     });
   };
   document.getElementById("joinBtn").onclick = () => {
@@ -78,7 +119,8 @@ function renderJoin() {
     const code = document.getElementById("code").value;
     if (!code) return showToast("Enter the room code!");
     socket.emit("joinRoom", { code, name: name() }, (res) => {
-      if (!res.ok) showToast(res.error);
+      if (res.ok) saveSession(res);
+      else showToast(res.error);
     });
   };
 }
@@ -128,17 +170,19 @@ function renderLobby() {
 
 function renderBluff() {
   const waitingOn = state.players.filter((p) => p.connected && !p.submittedLie).map((p) => p.name);
+  // The server's copy covers a reload, when the local flag starts over
+  const locked = submittedLie || (me() && me().submittedLie);
   screen.innerHTML = `
     <div class="progress">Question ${state.qNumber} of ${state.qTotal}${state.category ? ` · <span class="cat">${esc(state.category)}</span>` : ""}</div>
     <div class="card">
       <div class="qtext">${esc(state.question)}</div>
-      ${submittedLie
+      ${locked
         ? `<div class="waiting">Lie locked in 🤫 Waiting on: ${esc(waitingOn.join(", ") || "…")}</div>`
         : `<div class="label">Write a convincing LIE to fill the blank</div>
            <input type="text" id="lie" maxlength="60" placeholder="Your fake answer…" autocomplete="off" />
            <button id="lieBtn">Submit Lie</button>`}
     </div>`;
-  if (!submittedLie) {
+  if (!locked) {
     const submit = () => {
       const lie = document.getElementById("lie").value.trim();
       if (!lie) return showToast("Write something first!");
@@ -158,16 +202,17 @@ function renderBluff() {
 
 function renderVote() {
   const waitingOn = state.players.filter((p) => p.connected && !p.voted).map((p) => p.name);
+  const voted = votedIndex !== null || (me() && me().voted);
   screen.innerHTML = `
     <div class="progress">Question ${state.qNumber} of ${state.qTotal}${state.category ? ` · <span class="cat">${esc(state.category)}</span>` : ""}</div>
     <div class="card">
       <div class="qtext">${esc(state.question)}</div>
       <div class="label">Which one is the TRUTH?</div>
-      ${votedIndex !== null
+      ${voted
         ? `<div class="waiting">Vote cast 🗳️ Waiting on: ${esc(waitingOn.join(", ") || "…")}</div>`
         : state.choices.map((c) => `<button class="choice" data-i="${c.index}">${esc(c.text)}</button>`).join("")}
     </div>`;
-  if (votedIndex === null) {
+  if (!voted) {
     screen.querySelectorAll(".choice").forEach((btn) => {
       btn.onclick = () => {
         const index = Number(btn.dataset.i);

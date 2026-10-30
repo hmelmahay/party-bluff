@@ -19,6 +19,8 @@ Players join from their phones with a 4-letter room code (2–12 per room). Each
 - Host picks a category in the lobby (or "Mix of everything"; unknown categories fall back to the mix; Play Again reuses it). The current question's category shows in the progress line during rounds.
 - Lie/answer matching is fuzzy: case, punctuation, and leading a/an/the are ignored
 - Phases: `lobby → bluff → vote → reveal → (repeat) → gameover`
+- Rejoin:  seats are keyed by a server-made `playerId` (public, in every `state`) plus a secret `token` (only in that player's create/join ack, never broadcast).  On every socket (re)connect the client emits `rejoin {code, token}` from `sessionStorage` (per tab, so a reload rejoins but a second tab is a new player) and gets its seat, score, lie and vote back in any phase.  New players still can't join after the lobby.  The newest socket wins a seat, and the older one gets a `replaced` event.  The round still doesn't wait for a disconnected player, so someone who drops after everyone else has answered misses that lie or vote.
+- Host:  the room creator stays host.  While they're disconnected the first connected player stands in (`currentHostId()`), and the creator gets the controls back on rejoin.
 
 ## Architecture
 
@@ -38,6 +40,7 @@ npm start          # http://localhost:3000, or PORT=xxxx
 
 - `QUESTIONS_FILE=/path/to/fixture.json` env var overrides the question set — used by the automated tests
 - Tests are standalone Node scripts using `socket.io-client` (install with `npm i --no-save socket.io-client`): they spawn the server on a spare port with a fixture questions file and play scripted rounds asserting phases/scores/ballots. Past suites covered: guess bonus, no double bonus, bot padding to 5, lowercase display, host question count, fool points. Re-run/extend that pattern when touching game logic.
+- `node test/reconnect.js` is the one committed suite.  It drops a player mid-round and the host at a reveal, rejoins them on new sockets, and checks seat, score, host role, and that tokens never appear in `state`.
 
 ## Deployment (Render)
 
